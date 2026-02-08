@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <title>ผลการสอบ</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .result-container {
+            text-align: center;
+            padding: 50px 20px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 10px 30px;
+            border-radius: 50px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .pass {
+            background-color: #dcfce7;
+            color: #166534;
+            border: 2px solid #166534;
+        }
+
+        .fail {
+            background-color: #fee2e2;
+            color: #991b1b;
+            border: 2px solid #991b1b;
+        }
+
+        .score-text {
+            font-size: 4rem;
+            font-weight: bold;
+            margin: 10px 0;
+            color: #1e293b;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="result-container">
+            <h1>สรุปคะแนนของคุณ</h1>
+
+            <div class="score-text">{{ score }} / {{ total }}</div>
+            <p style="font-size: 1.2rem; color: #64748b;">คิดเป็น {{ ((score / total) * 100) | round(1) }}%</p>
+
+            <div class="status-badge {{ 'pass' if is_passed else 'fail' }}">
+                {{ status }}
+            </div>
+
+            <div style="margin-top: 30px;">
+                {% if is_passed %}
+                <p>ยินดีด้วย! คุณมีความพร้อมในหัวข้อนี้แล้ว 🥳</p>
+                {% else %}
+                <p>พยายามอีกนิด! ลองทบทวนเนื้อหาแล้วมาทำใหม่อีกครั้งนะ ✌️</p>
+                {% endif %}
+            </div>
+
+            <div style="margin-top: 40px;">
+                <a href="/" class="btn-start" style="padding: 15px 40px;">กลับไปหน้าหลัก</a>
+            </div>
+        </div>
+    </div>
+    <div class="color-picker-ui">
+        <label for="bg-choice">🎨 ปรับโทนสีเว็บ:</label>
+        <input type="color" id="bg-choice" value="#f8fafc" title="คลิกเพื่อเลือกสีพื้นหลังที่สบายตา">
+    </div>
+
+    <script>
+        // ส่วนควบคุมการเปลี่ยนสีและจดจำค่า
+        const bgInput = document.getElementById('bg-choice');
+
+        // โหลดสีจาก LocalStorage
+        const savedTheme = localStorage.getItem('userTheme');
+        if (savedTheme) {
+            document.body.style.backgroundColor = savedTheme;
+            bgInput.value = savedTheme;
+        }
+
+        // ฟังก์ชันเปลี่ยนสีแบบ Real-time
+        bgInput.addEventListener('input', (e) => {
+            const color = e.target.value;
+            document.body.style.backgroundColor = color;
+            localStorage.setItem('userTheme', color);
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,158 @@
+@import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;700&display=swap');
+
+:root {
+    --primary-color: #2563eb;
+    --secondary-color: #3b82f6;
+    --bg-color: #f8fafc;
+    --text-color: #1e293b;
+    --card-bg: #ffffff;
+}
+
+body {
+    font-family: 'Sarabun', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 20px;
+
+}
+
+/* Header */
+header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+h1 {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+/* Grid Layout */
+.quiz-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+}
+
+/* Card Design */
+.quiz-card {
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    transition: all 0.3s ease;
+    border: 1px solid #e2e8f0;
+}
+
+.quiz-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    border-color: var(--secondary-color);
+}
+
+.card-icon {
+    font-size: 50px;
+    margin-bottom: 15px;
+}
+
+/* Question Styles */
+.question-block {
+    background: white;
+    padding: 25px;
+    margin-bottom: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    border-left: 6px solid var(--primary-color);
+}
+
+.option-label {
+    display: block;
+    padding: 12px 15px;
+    margin: 8px 0;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.option-label:hover {
+    background-color: #eff6ff;
+    border-color: var(--secondary-color);
+}
+
+/* Buttons */
+.btn-start {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    padding: 12px 30px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.3s;
+}
+
+.btn-start:hover {
+    opacity: 0.9;
+}
+
+/* แถบเลือกสีเวอร์ชันเน้นความชัดเจน */
+.color-picker-ui {
+    position: fixed;
+    top: 25px;
+    right: 25px;
+    background: #ffffff;
+    /* พื้นหลังขาวตัดกับทุกสี */
+    padding: 12px 20px;
+    border-radius: 50px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    /* เพิ่มเงาให้ดูมีมิติ */
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border: 2px solid var(--primary-color);
+    /* ใช้สีหลักเป็นขอบ */
+    transition: transform 0.2s ease;
+}
+
+.color-picker-ui:hover {
+    transform: scale(1.05);
+    /* ขยายเล็กน้อยเวลาเมาส์ชี้ */
+}
+
+.color-picker-ui label {
+    font-weight: bold;
+    color: #1e293b;
+    font-size: 0.95rem;
+    cursor: pointer;
+}
+
+#bg-choice {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 35px;
+    height: 35px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+/* ทำให้ตัววงกลมเลือกสีดูสวยขึ้น */
+#bg-choice::-webkit-color-swatch {
+    border-radius: 50%;
+    border: 2px solid #ddd;
+}

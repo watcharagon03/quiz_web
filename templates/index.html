@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ระบบคลังข้อสอบ IT</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>🚀 แนวข้อสอบวิชาการคอมพิวเตอร์(ชลประทาน)</h1>
+            <p><b>ข้อสอบนักวิชาการคอมพิวเตอร์ (220 ข้อ)</b></p>
+        </header>
+
+        <div class="quiz-grid">
+            {% for set in all_sets %}
+            <div class="quiz-card">
+                <div class="card-icon">
+                    {% if set.set_id == 1 %}💻{% elif set.set_id == 2 %}🌐{% elif set.set_id == 3 %}⚙️{% else %}📄{%
+                    endif %}
+                </div>
+                <h3>{{ set.title }}</h3>
+                <p>จำนวน {{ set['items']|length }} ข้อ</p>
+                <a href="{{ url_for('quiz', set_id=set.set_id) }}" class="btn-start">เริ่มทำข้อสอบ</a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="color-picker-ui">
+        <label for="bg-choice">🎨 ปรับโทนสีเว็บ:</label>
+        <input type="color" id="bg-choice" value="#f8fafc" title="คลิกเพื่อเลือกสีพื้นหลังที่สบายตา">
+    </div>
+
+    <script>
+        // ส่วนควบคุมการเปลี่ยนสีและจดจำค่า
+        const bgInput = document.getElementById('bg-choice');
+
+        // โหลดสีจาก LocalStorage
+        const savedTheme = localStorage.getItem('userTheme');
+        if (savedTheme) {
+            document.body.style.backgroundColor = savedTheme;
+            bgInput.value = savedTheme;
+        }
+
+        // ฟังก์ชันเปลี่ยนสีแบบ Real-time
+        bgInput.addEventListener('input', (e) => {
+            const color = e.target.value;
+            document.body.style.backgroundColor = color;
+            localStorage.setItem('userTheme', color);
+        });
+    </script>
+</body>
+
+</html>

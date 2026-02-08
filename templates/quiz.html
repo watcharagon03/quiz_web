@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <title>{{ quiz_set.title }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h2>{{ quiz_set.title }}</h2>
+            <p>กรุณาเลือกคำตอบที่ถูกต้องที่สุด</p>
+        </header>
+
+        <form action="/submit" method="POST">
+            <input type="hidden" name="set_id" value="{{ quiz_set.set_id }}">
+
+            {% for item in quiz_set['items'] %}
+            <div class="question-block">
+                <p style="font-weight: bold; font-size: 1.1rem;">{{ loop.index }}. {{ item.q }}</p>
+                {% for option in item.options %}
+                <label class="option-label">
+                    <input type="radio" name="q_{{ item.id }}" value="{{ option[0] }}" required>
+                    {{ option }}
+                </label>
+                {% endfor %}
+            </div>
+            {% endfor %}
+
+            <div style="text-align: center; margin-top: 40px;">
+                <button type="submit" class="btn-start"
+                    style="font-size: 1.2rem; padding: 15px 60px;">ส่งคำตอบทั้งหมด</button>
+            </div>
+        </form>
+    </div>
+    <div class="color-picker-ui">
+        <label for="bg-choice">🎨 ปรับโทนสีเว็บ:</label>
+        <input type="color" id="bg-choice" value="#f8fafc" title="คลิกเพื่อเลือกสีพื้นหลังที่สบายตา">
+    </div>
+
+    <script>
+        // ส่วนควบคุมการเปลี่ยนสีและจดจำค่า
+        const bgInput = document.getElementById('bg-choice');
+
+        // โหลดสีจาก LocalStorage
+        const savedTheme = localStorage.getItem('userTheme');
+        if (savedTheme) {
+            document.body.style.backgroundColor = savedTheme;
+            bgInput.value = savedTheme;
+        }
+
+        // ฟังก์ชันเปลี่ยนสีแบบ Real-time
+        bgInput.addEventListener('input', (e) => {
+            const color = e.target.value;
+            document.body.style.backgroundColor = color;
+            localStorage.setItem('userTheme', color);
+        });
+    </script>
+</body>
+
+</html>
