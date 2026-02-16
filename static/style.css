@@ -6,24 +6,26 @@
     --bg-color: #f8fafc;
     --text-color: #1e293b;
     --card-bg: #ffffff;
+    --danger-color: #dc3545;
+    --success-color: #28a745;
 }
 
+/* --- Base Styles --- */
 body {
     font-family: 'Sarabun', sans-serif;
     background-color: var(--bg-color);
     color: var(--text-color);
     margin: 0;
     padding: 0;
+    transition: background-color 0.3s ease;
 }
 
 .container {
     max-width: 1100px;
     margin: 0 auto;
     padding: 40px 20px;
-
 }
 
-/* Header */
 header {
     text-align: center;
     margin-bottom: 50px;
@@ -35,20 +37,19 @@ h1 {
     margin-bottom: 10px;
 }
 
-/* Grid Layout */
+/* --- หน้าเลือกชุดข้อสอบ (Grid Layout) --- */
 .quiz-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 25px;
 }
 
-/* Card Design */
 .quiz-card {
     background: var(--card-bg);
     border-radius: 16px;
     padding: 30px;
     text-align: center;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
     border: 1px solid #e2e8f0;
 }
@@ -64,7 +65,7 @@ h1 {
     margin-bottom: 15px;
 }
 
-/* Question Styles */
+/* --- หน้าทำข้อสอบ (Question Styles) --- */
 .question-block {
     background: white;
     padding: 25px;
@@ -72,6 +73,7 @@ h1 {
     border-radius: 12px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     border-left: 6px solid var(--primary-color);
+    text-align: left;
 }
 
 .option-label {
@@ -89,8 +91,67 @@ h1 {
     border-color: var(--secondary-color);
 }
 
-/* Buttons */
-.btn-start {
+/* --- UI Elements (Timer & Color Picker) --- */
+
+/* ตัวนับเวลา - ไว้ที่มุมขวาบน */
+.timer-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #ffffff;
+    border: 3px solid var(--primary-color);
+    padding: 10px 20px;
+    border-radius: 50px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#time-left {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.timer-danger {
+    border-color: var(--danger-color) !important;
+    background-color: #fff5f5;
+    animation: pulse 1s infinite;
+}
+
+.timer-danger #time-left {
+    color: var(--danger-color) !important;
+}
+
+/* แถบเลือกสี - ย้ายมาไว้มุมซ้ายล่าง เพื่อไม่ให้ทับกับ Timer */
+.color-picker-ui {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background: #ffffff;
+    padding: 10px 18px;
+    border-radius: 50px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid #ddd;
+}
+
+#bg-choice {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    border: none;
+    background: none;
+}
+
+/* --- Buttons --- */
+.btn-start,
+.btn-submit {
     display: inline-block;
     background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     color: white;
@@ -100,59 +161,80 @@ h1 {
     font-weight: bold;
     border: none;
     cursor: pointer;
-    transition: opacity 0.3s;
+    transition: transform 0.2s, opacity 0.3s;
 }
 
-.btn-start:hover {
+.btn-submit {
+    background: var(--success-color);
+    font-size: 1.2rem;
+    padding: 15px 60px;
+}
+
+.btn-start:hover,
+.btn-submit:hover {
     opacity: 0.9;
+    transform: scale(1.05);
 }
 
-/* แถบเลือกสีเวอร์ชันเน้นความชัดเจน */
-.color-picker-ui {
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* แถบเครื่องเล่นเพลง */
+.music-player-ui {
     position: fixed;
-    top: 25px;
-    right: 25px;
+    bottom: 20px;
+    right: 20px;
+    /* วางไว้มุมขวาล่าง */
     background: #ffffff;
-    /* พื้นหลังขาวตัดกับทุกสี */
-    padding: 12px 20px;
+    padding: 10px 15px;
     border-radius: 50px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-    /* เพิ่มเงาให้ดูมีมิติ */
-    z-index: 10000;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
     display: flex;
     align-items: center;
-    gap: 12px;
-    border: 2px solid var(--primary-color);
-    /* ใช้สีหลักเป็นขอบ */
-    transition: transform 0.2s ease;
+    gap: 10px;
+    border: 1px solid #eee;
 }
 
-.color-picker-ui:hover {
-    transform: scale(1.05);
-    /* ขยายเล็กน้อยเวลาเมาส์ชี้ */
-}
-
-.color-picker-ui label {
-    font-weight: bold;
-    color: #1e293b;
-    font-size: 0.95rem;
-    cursor: pointer;
-}
-
-#bg-choice {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    width: 35px;
-    height: 35px;
-    background-color: transparent;
+.btn-music {
+    background: var(--primary-color);
+    color: white;
     border: none;
+    padding: 5px 12px;
+    border-radius: 20px;
     cursor: pointer;
-    padding: 0;
+    font-size: 0.85rem;
 }
 
-/* ทำให้ตัววงกลมเลือกสีดูสวยขึ้น */
-#bg-choice::-webkit-color-swatch {
-    border-radius: 50%;
-    border: 2px solid #ddd;
+#volume-control {
+    width: 60px;
+    cursor: pointer;
+}
+
+.music-icon {
+    font-size: 1.2rem;
+    animation: rotate 3s linear infinite;
+    display: none;
+    /* จะแสดงเมื่อเพลงเล่นเท่านั้น */
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
 }
